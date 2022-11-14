@@ -2,6 +2,7 @@ import { Dimensions, Image, StyleSheet } from "react-native";
 import React from "react";
 import { Wonder } from "../data/SevenWonders";
 import Animated, {
+  Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -28,10 +29,21 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({
     const translateX = interpolate(
       activeIndex.value,
       inputRange,
-      [50, 0, -100]
+      [50, 0, -100],
+      Extrapolate.CLAMP
     );
-    const scale = interpolate(activeIndex.value, inputRange, [0.8, 1, 1.3]);
-    const opacity = interpolate(activeIndex.value, inputRange, [0.6, 1, 0]);
+    const scale = interpolate(
+      activeIndex.value,
+      inputRange,
+      [0.8, 1, 1.3],
+      Extrapolate.CLAMP
+    );
+    const opacity = interpolate(
+      activeIndex.value,
+      inputRange,
+      [0.6, 1, 0],
+      Extrapolate.CLAMP
+    );
     return {
       opacity,
       transform: [{ translateX }, { scale }],
