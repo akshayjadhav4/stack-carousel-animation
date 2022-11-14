@@ -1,4 +1,4 @@
-interface Wonder {
+export interface Wonder {
   key: number;
   name: string;
   image: string;
