@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
   slideImage: {
     width: SLIDE_WIDTH,
     height: SLIDE_HEIGHT,
+    borderRadius: 20,
   },
 });

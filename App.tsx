@@ -24,7 +24,7 @@ export default function App() {
         direction={Directions.LEFT}
         onHandlerStateChange={({ nativeEvent }) => {
           if (nativeEvent.state === State.END) {
-            if (activeIndex.value === SEVEN_WONDERS.length - 1) {
+            if (Math.round(activeIndex.value) === SEVEN_WONDERS.length - 1) {
               return;
             }
             activeIndex.value = withSpring(Math.round(activeIndex.value + 1));
@@ -36,7 +36,7 @@ export default function App() {
           direction={Directions.RIGHT}
           onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.END) {
-              if (activeIndex.value === 0) {
+              if (Math.round(activeIndex.value) === 0) {
                 return;
               }
               activeIndex.value = withSpring(Math.round(activeIndex.value - 1));
