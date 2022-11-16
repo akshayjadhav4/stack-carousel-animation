@@ -50,7 +50,7 @@ const App = () => {
         }}
       >
         <FlingGestureHandler
-          key={"rigth"}
+          key={"right"}
           direction={Directions.RIGHT}
           onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.END) {
