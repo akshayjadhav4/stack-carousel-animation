@@ -1,8 +1,7 @@
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Wonder } from "../data/SevenWonders";
 import Animated, {
-  Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -42,11 +41,30 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({
       transform: [{ translateX }, { scale }],
     };
   });
+  const reanimatedInformationStyle = useAnimatedStyle(() => {
+    const inputRange = [index - 1, index, index + 1];
+    const translateY = interpolate(
+      opacityValue.value,
+      inputRange,
+      [100, 0, -100]
+    );
+
+    return {
+      transform: [{ translateY }],
+    };
+  });
   return (
     <Animated.View
       style={[styles.slideContainer, reanimatedCarouselSlideStyle]}
     >
       <Image source={{ uri: item.image }} style={styles.slideImage} />
+      <Animated.View
+        style={[styles.informationSection, reanimatedInformationStyle]}
+      >
+        <Text style={[styles.locationName]}>{item.name}</Text>
+        <Text style={[styles.location]}>{item.location}</Text>
+        <Text style={[styles.author]}>{item.imageAuthor}</Text>
+      </Animated.View>
     </Animated.View>
   );
 };
@@ -62,5 +80,25 @@ const styles = StyleSheet.create({
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
     borderRadius: 14,
+  },
+  informationSection: {
+    position: "absolute",
+    bottom: 0,
+    padding: 10,
+  },
+  locationName: {
+    fontSize: 30,
+    fontWeight: "800",
+    color: "#fff",
+  },
+  location: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#fff",
+  },
+  author: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#fff",
   },
 });
