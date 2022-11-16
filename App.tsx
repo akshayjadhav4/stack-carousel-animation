@@ -1,11 +1,5 @@
-import {
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from "react-native";
-import React, { useState } from "react";
+import { FlatList, SafeAreaView, View } from "react-native";
+
 import {
   Directions,
   FlingGestureHandler,
@@ -15,29 +9,17 @@ import {
 import { SEVEN_WONDERS } from "./data/SevenWonders";
 import CarouselSlide from "./components/CarouselSlide";
 import {
-  useDerivedValue,
+  useSharedValue,
   withSpring,
   withTiming,
+  useDerivedValue,
 } from "react-native-reanimated";
 
 const App = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const activeIndex = useDerivedValue(() => withSpring(currentSlide));
-  const opacityValue = useDerivedValue(() => withTiming(currentSlide));
-  const onHandlerStateChangeLeft = () => {
-    "worklet";
-    if (currentSlide === SEVEN_WONDERS.length - 1) {
-      return;
-    }
-    setCurrentSlide((prev) => prev + 1);
-  };
-  const onHandlerStateChangeRight = () => {
-    "worklet";
-    if (currentSlide === 0) {
-      return;
-    }
-    setCurrentSlide((prev) => prev - 1);
-  };
+  const currentSlide = useSharedValue(0);
+  const activeIndex = useDerivedValue(() => withSpring(currentSlide.value));
+  const opacityValue = useDerivedValue(() => withTiming(currentSlide.value));
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <FlingGestureHandler
@@ -45,7 +27,12 @@ const App = () => {
         direction={Directions.LEFT}
         onHandlerStateChange={({ nativeEvent }) => {
           if (nativeEvent.state === State.END) {
-            onHandlerStateChangeLeft();
+            console.log("LEFT", currentSlide.value);
+
+            if (currentSlide.value === 6) {
+              return;
+            }
+            currentSlide.value = currentSlide.value + 1;
           }
         }}
       >
@@ -54,7 +41,11 @@ const App = () => {
           direction={Directions.RIGHT}
           onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.END) {
-              onHandlerStateChangeRight();
+              console.log("RIGHT", currentSlide.value);
+              if (currentSlide.value === 0) {
+                return;
+              }
+              currentSlide.value = currentSlide.value - 1;
             }
           }}
         >

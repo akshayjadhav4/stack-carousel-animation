@@ -13,9 +13,9 @@ interface CarouselSlideProps {
   opacityValue: Animated.SharedValue<number>;
 }
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 const ITEM_WIDTH = width * 0.76;
-const ITEM_HEIGHT = ITEM_WIDTH * 1.7;
+const ITEM_HEIGHT = height * 0.6;
 
 const CarouselSlide: React.FC<CarouselSlideProps> = ({
   index,
@@ -31,11 +31,7 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({
       [50, 0, -100]
     );
     const scale = interpolate(activeIndex.value, inputRange, [0.8, 1, 1.3]);
-    const opacity = interpolate(opacityValue.value, inputRange, [
-      1 - 1 / 3,
-      1,
-      0,
-    ]);
+    const opacity = interpolate(opacityValue.value, inputRange, [0.6, 1, 0]);
     return {
       opacity,
       transform: [{ translateX }, { scale }],
